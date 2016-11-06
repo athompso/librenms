@@ -26,7 +26,9 @@ function discover_new_device($hostname, $device = '', $method = '', $interface =
 
     d_echo("discovering $dst_host\n");
 
-    $ip = gethostbyname($dst_host);
+    if(!empty($config['ignore_dns_ptr'])) {
+        $ip = gethostbyname($dst_host);
+    }
     if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
         // $ip isn't a valid IP so it must be a name.
         if ($ip == $dst_host) {
